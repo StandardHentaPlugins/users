@@ -11,7 +11,7 @@ const usersPlugin = henta.getPlugin('common/users');
 p-install StandardHentaPlugins/users
 ```
 
-## Настройка
+## Методы
 Получить пользователя по vkId:
 ```js
   const user = await usersPlugin.get(1); // Павел Дуров
