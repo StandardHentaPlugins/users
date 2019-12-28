@@ -1,0 +1,13 @@
+{
+  "main": "src/index.js",
+  "type": "module",
+  "slug": "common/botcmd",
+  "version": "0.9.0",
+  "remote": "StandardHentaPlugins/botcmd",
+  "dependencies": {
+    "sequelize": "^5.21.2"
+  },
+  "plugins": {
+    "db": "0.9.0"
+  }
+}
