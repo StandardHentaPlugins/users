@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 import Henta from 'henta';
 import Emittery from 'emittery';
-import initDefaultMethods from './defaultMethods';
+import initDefaultMethods from './defaultMethods.js';
 
-import BotBridge from './bridges/bot';
-import BotcmdBridge from './bridges/botcmd';
-import HentadminBridge from './bridges/hentadmin';
+import BotBridge from './bridges/bot.js';
+import BotcmdBridge from './bridges/botcmd.js';
+import HentadminBridge from './bridges/hentadmin.js';
 
 class User extends Sequelize.Model {
   [x: string]: any;
@@ -162,7 +162,11 @@ export default class UsersPlugin {
     @return VkId пользователя.
   */
   async resolveVkId(str: string): Promise<number> {
-    const res = await this.henta.vk.snippets.resolveResource(str);
+    const res = await this.henta.vkWorker.VKLib.resolveResource({
+      api: this.henta.vk.api,
+      resource: str
+    });
+
     return res.type === 'user' && res.id;
   }
 
