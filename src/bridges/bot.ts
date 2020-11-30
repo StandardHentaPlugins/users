@@ -23,7 +23,7 @@ export default class BotBridge {
     await next();
   
     if (ctx.answered && !ctx.notSaveUser) {
-      ctx.user.save();
+      ctx.user.$save();
     }
   }
 }

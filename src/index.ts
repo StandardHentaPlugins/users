@@ -17,9 +17,10 @@ export default class UsersPlugin {
   userGroups = new Set<any>();
   cache = new Map<number, User>();
   bridges: Array<any>;
+  forceFields: string[] = [];
   User = User;
   userModel = {
-    vkId: Sequelize.INTEGER,
+    vkId: { type: Sequelize.INTEGER, unique: true },
     firstName: Sequelize.STRING,
     lastName: Sequelize.STRING
   };
@@ -48,7 +49,7 @@ export default class UsersPlugin {
     const dbPlugin = henta.getPlugin('common/db');
     // TODO: dbPlugin.init
     this.User = dbPlugin.define('user', this.userModel, { timestamps: false });
-    dbPlugin.applySaveCenter(this.User.prototype);
+    dbPlugin.applySaveCenter(this.User.prototype, this.forceFields);
     await dbPlugin.safeSync(this.User);
 
     Object.assign(this.User.prototype, this.usersPrototype);
@@ -219,11 +220,14 @@ export default class UsersPlugin {
     @param name - Имя поля.
     @param data Данные поля.
   */
-  field(name: string, data) {
+  field(name: string, data, force = false) {
     if (this.userModel[name]) {
       throw Error(`Поле ${name} уже занято`);
     }
 
     this.userModel[name] = data;
+    if (force) {
+      this.forceFields.push(name);
+    }
   }
 }
